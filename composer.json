@@ -1,0 +1,52 @@
+{
+    "name":         "kodify/transcoder-bundle",
+    "type":         "library",
+    "description":  "TranscoderBundle",
+    "keywords":     ["transcoder","kodify","pandastream","zencoder"],
+    "version":      "1.0.0",
+    "time":         "2013-01-18",
+    "homepage":     "https://github.com/kodify/TranscoderBundle.git",
+    "license":      "Apache-2.0",
+    "authors":      [
+        {
+            "name": "Tomoki Kamo",
+            "email": "tomoki@kodify.io"
+        },
+        {
+            "name": "Fernando Palomo",
+            "email": "fernando@kodify.io"
+        },
+        {
+            "name": "Natxo Treig",
+            "email": "natxo@kodify.io"
+        }
+    ],
+    "repositories":{
+        "pandastream":{
+            "type":"package",
+            "package":{
+                "name":"pandastream/panda_client_php",
+                "version":"master",
+                "source":{
+                    "url":"git://github.com/pandastream/panda_client_php.git",
+                    "type":"git",
+                    "reference":"origin/master"
+                },
+                "autoload":{
+                    "files":["panda.php"]
+                }
+            }
+        }
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/symfony": "2.1.*",
+        "mockery/mockery": "dev-master",
+        "pandastream/panda_client_php":"dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Kodify\\TranscoderBundle":"" }
+    },
+    "minimum-stability": "dev",
+    "target-dir": "Kodify/TranscoderBundle"
+}
