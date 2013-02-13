@@ -40,7 +40,7 @@ interface DriverInterface
 
     public function getClipsList();
 
-    public function getClipsListByStatus($status);
+    public function getClipsListByStatus($status, $page = 1, $pageSize = 100);
 
     public function getClipById($clipId);
 
