@@ -137,12 +137,12 @@ class PandaStream extends \Panda implements DriverInterface
         return $this->basicGetCall("/encodings/{$clipId}.json");
     }
 
-    public function getClipsListByStatus($status)
+    public function getClipsListByStatus($status, $page = 1, $pageSize = 100)
     {
         $this->validateStatus($status);
 
         return $this->decodeAndReturn(
-            $this->get(static::CLIPS_REQUEST, array('status' => $status))
+            $this->get(static::CLIPS_REQUEST, array('status' => $status, 'per_page' => $pageSize, 'page' => $page))
         );
     }
 
