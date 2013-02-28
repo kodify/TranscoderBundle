@@ -18,7 +18,7 @@ class TranscoderTest extends TestBaseClass
     {
         $callableMethods = $this->initializeObject();
         foreach ($callableMethods as $method) {
-            if( 'createFormat' == $method->name){
+            if ('createFormat' == $method->name) {
                 continue;
             }
             $requiredParametersCount = $method->getNumberOfRequiredParameters();
@@ -75,6 +75,7 @@ class TranscoderTest extends TestBaseClass
             $transcoderDriverMock->shouldReceive($method->name)->andReturn($method->name);
         }
         $this->object->setDriver($transcoderDriverMock);
+
         return $methodsList;
     }
 
