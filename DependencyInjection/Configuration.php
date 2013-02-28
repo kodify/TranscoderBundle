@@ -29,6 +29,7 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('pandastream_api_url')->end()
             ->scalarNode('pandastream_cloud_id')->end()
             ->end();
+
         return $treeBuilder;
     }
 }

@@ -19,11 +19,11 @@ abstract class abstractTranscoderDriverTest extends TestBaseClass
             array('path' => PandaStream::VIDEOS_REQUEST, 'params' => array('page' => 1, 'per_page' => 100))
         );
         $page = 2;
-        $per_page = 100;
+        $perPage = 100;
         $this->validateCorrectCall(
             'getVideosList',
-            array('path' => PandaStream::VIDEOS_REQUEST, 'params' => array('page' => $page, 'per_page' => $per_page)),
-            array('page' => $page, 'per_page' => $per_page)
+            array('path' => PandaStream::VIDEOS_REQUEST, 'params' => array('page' => $page, 'per_page' => $perPage)),
+            array('page' => $page, 'per_page' => $perPage)
         );
     }
 
@@ -48,15 +48,15 @@ abstract class abstractTranscoderDriverTest extends TestBaseClass
         );
         $status = 'success';
         $page = 2;
-        $per_page = 100;
+        $perPage = 100;
         $status = 'fail';
         $this->validateCorrectCall(
             'getVideosListByStatus',
             array(
                 'path' => PandaStream::VIDEOS_REQUEST,
-                'params' => array('page' => $page, 'per_page' => $per_page, 'status' => $status)
+                'params' => array('page' => $page, 'per_page' => $perPage, 'status' => $status)
             ),
-            array('status' => $status, 'page' => $page, 'per_page' => $per_page)
+            array('status' => $status, 'page' => $page, 'per_page' => $perPage)
         );
     }
 
