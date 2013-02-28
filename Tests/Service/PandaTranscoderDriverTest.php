@@ -19,8 +19,8 @@ class PandaTranscoderDriverTest extends abstractTranscoderDriverTest
     public function setUp()
     {
         $this->object = \Mockery::mock('Kodify\TranscoderBundle\Service\Driver\PandaStream[get,post,put,delete]', array());
-        $returnPathsMethod = function ($request_path, $params = array()) {
-            return json_encode(array('path' => $request_path, 'params' => $params));
+        $returnPathsMethod = function ($requestPath, $params = array()) {
+            return json_encode(array('path' => $requestPath, 'params' => $params));
         };
         $this->object
             ->shouldReceive('get')

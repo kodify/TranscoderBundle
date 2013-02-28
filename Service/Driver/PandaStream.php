@@ -81,12 +81,12 @@ class PandaStream extends \Panda implements DriverInterface
     /**
      * Will add a file to our pandastream account from a Url
      */
-    public function addVideoFromUrl($source_url, $payload = '', $profiles = 'none')
+    public function addVideoFromUrl($sourceUrl, $payload = '', $profiles = 'none')
     {
         $requestParams = array(
             'payload' => $payload,
             'profiles' => $profiles,
-            'source_url' => $source_url,
+            'source_url' => $sourceUrl,
         );
         // TODO: RECHECK ERROR HANDLING
         return $this->decodeAndReturn(
@@ -208,8 +208,8 @@ class PandaStream extends \Panda implements DriverInterface
     public function createFormat(array $params)
     {
         $compulsoryArguments = array('name','title','extname','width','height');
-        foreach($compulsoryArguments as $argument){
-            if(empty($params[$argument])){
+        foreach ($compulsoryArguments as $argument) {
+            if (empty($params[$argument])) {
                 throw new \InvalidArgumentException("{$argument} is compulsory when creating a profile");
             }
         }
@@ -227,6 +227,7 @@ class PandaStream extends \Panda implements DriverInterface
     protected function basicGetCall($url)
     {
         $result = $this->get($url);
+
         return $this->decodeAndReturn($result);
     }
 
