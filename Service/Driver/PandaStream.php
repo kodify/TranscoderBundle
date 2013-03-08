@@ -7,14 +7,14 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 class PandaStream extends \Panda implements DriverInterface
 {
     const API_VERSION = 2;
-    const API_PORT = 443;
+    const API_PORT    = 443;
 
-    const VIDEOS_REQUEST = '/videos.json';
-    const CLIPS_REQUEST = '/encodings.json';
+    const VIDEOS_REQUEST  = '/videos.json';
+    const CLIPS_REQUEST   = '/encodings.json';
     const FORMATS_REQUEST = '/profiles.json';
 
-    const FAIL_STATUS = 'fail';
-    const SUCCESS_STATUS = 'success';
+    const FAIL_STATUS       = 'fail';
+    const SUCCESS_STATUS    = 'success';
     const PROCESSING_STATUS = 'processing';
 
     protected $videoStatusList = array(self::FAIL_STATUS, self::SUCCESS_STATUS, self::PROCESSING_STATUS);
@@ -22,11 +22,11 @@ class PandaStream extends \Panda implements DriverInterface
     public function __construct(array $connectionData)
     {
         $this->api_version = static::API_VERSION;
-        $this->cloud_id = $connectionData['cloudId'];
-        $this->access_key = $connectionData['accessKey'];
-        $this->secret_key = $connectionData['secretKey'];
-        $this->api_host = $connectionData['apiUrl'];
-        $this->api_port = static::API_PORT;
+        $this->cloud_id    = $connectionData['cloudId'];
+        $this->access_key  = $connectionData['accessKey'];
+        $this->secret_key  = $connectionData['secretKey'];
+        $this->api_host    = $connectionData['apiUrl'];
+        $this->api_port    = static::API_PORT;
     }
 
     // Videos
@@ -71,9 +71,9 @@ class PandaStream extends \Panda implements DriverInterface
      */
     public function getVideoCompleteDataById($videoId)
     {
-        $videoData = $this->getVideoById($videoId);
+        $videoData              = $this->getVideoById($videoId);
         $videoData['encodings'] = $this->getVideoEncodingsById($videoId);
-        $videoData['metadata'] = $this->getVideoMetadataById($videoId);
+        $videoData['metadata']  = $this->getVideoMetadataById($videoId);
 
         return $videoData;
     }
@@ -84,10 +84,11 @@ class PandaStream extends \Panda implements DriverInterface
     public function addVideoFromUrl($sourceUrl, $payload = '', $profiles = 'none')
     {
         $requestParams = array(
-            'payload' => $payload,
-            'profiles' => $profiles,
+            'payload'    => $payload,
+            'profiles'   => $profiles,
             'source_url' => $sourceUrl,
         );
+
         // TODO: RECHECK ERROR HANDLING
         return $this->decodeAndReturn(
             $this->post(
@@ -100,10 +101,11 @@ class PandaStream extends \Panda implements DriverInterface
     public function addVideoFromFile($file, $payload = '', $profiles = 'none')
     {
         $requestParams = array(
-            'payload' => $payload,
+            'payload'  => $payload,
             'profiles' => $profiles,
-            'file' => $file,
+            'file'     => $file,
         );
+
         // TODO: RECHECK ERROR HANDLING
         return $this->decodeAndReturn(
             $this->post(
@@ -116,7 +118,7 @@ class PandaStream extends \Panda implements DriverInterface
 
     public function deleteVideoById($videoId)
     {
-        $url = "/videos/{$videoId}.json";
+        $url         = "/videos/{$videoId}.json";
         $failMessage = "Couldn't delete video with ID={$videoId}";
 
         return $this->basicDeleteCall($url, $failMessage);
@@ -156,10 +158,10 @@ class PandaStream extends \Panda implements DriverInterface
 
     public function createClipFromVideo($videoId, $formatId = '', $formatName = '')
     {
-        $url = static::CLIPS_REQUEST;
+        $url    = static::CLIPS_REQUEST;
         $params = array(
-            'video_id' => $videoId,
-            'profile_id' => $formatId,
+            'video_id'     => $videoId,
+            'profile_id'   => $formatId,
             'profile_name' => $formatName,
         );
 
@@ -169,7 +171,7 @@ class PandaStream extends \Panda implements DriverInterface
 
     public function cancelClipEncodingById($clipId)
     {
-        $url = "/encodings/{$clipId}/cancel.json";
+        $url    = "/encodings/{$clipId}/cancel.json";
         $params = array();
 
         return $this->basicPostCall($url, $params);
@@ -177,7 +179,7 @@ class PandaStream extends \Panda implements DriverInterface
 
     public function deleteClipById($clipId)
     {
-        $url = "/encodings/{$clipId}.json";
+        $url         = "/encodings/{$clipId}.json";
         $failMessage = "Couldn't delete clip with ID={$clipId}";
 
         return $this->basicDeleteCall($url, $failMessage);
@@ -199,7 +201,7 @@ class PandaStream extends \Panda implements DriverInterface
 
     public function deleteFormatById($formatId)
     {
-        $url = "/profiles/{$formatId}.json";
+        $url         = "/profiles/{$formatId}.json";
         $failMessage = "Couldn't delete format with ID={$formatId}";
 
         return $this->basicDeleteCall($url, $failMessage);
@@ -207,7 +209,7 @@ class PandaStream extends \Panda implements DriverInterface
 
     public function createFormat(array $params)
     {
-        $compulsoryArguments = array('name','title','extname','width','height');
+        $compulsoryArguments = array('name', 'title', 'extname', 'width', 'height');
         foreach ($compulsoryArguments as $argument) {
             if (empty($params[$argument])) {
                 throw new \InvalidArgumentException("{$argument} is compulsory when creating a profile");
@@ -260,12 +262,14 @@ class PandaStream extends \Panda implements DriverInterface
     protected function basicDeleteCall($url, $failMessage)
     {
         $deletionResult = $this->delete($url);
-        $result = $this->decodeAndReturn($deletionResult);
+        $result         = $this->decodeAndReturn($deletionResult);
 
         if (isset($result['error'])) {
             throw new InvalidArgumentException($result['message']);
-        } else if (!isset($result['deleted']) || !($result['deleted'])) {
-            throw new InvalidArgumentException($failMessage);
+        } else {
+            if (!isset($result['deleted']) || !($result['deleted'])) {
+                throw new InvalidArgumentException($failMessage);
+            }
         }
 
         return $result;
