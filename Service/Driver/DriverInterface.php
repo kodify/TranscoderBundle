@@ -32,7 +32,7 @@ interface DriverInterface
      */
     public function addVideoFromUrl($source_url, $payload = '', $profiles = '');
 
-    public function addVideoFromFile($file, $payload = '', $profiles = '');
+    public function addVideoFromFile($file, $payload = '', $profiles = '', $path_format = '');
 
     public function deleteVideoById($videoId);
 

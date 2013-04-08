@@ -21,12 +21,14 @@ class PandaStream extends \Panda implements DriverInterface
 
     public function __construct(array $connectionData)
     {
+        // @codingStandardsIgnoreStart
         $this->api_version = static::API_VERSION;
         $this->cloud_id    = $connectionData['cloudId'];
         $this->access_key  = $connectionData['accessKey'];
         $this->secret_key  = $connectionData['secretKey'];
         $this->api_host    = $connectionData['apiUrl'];
         $this->api_port    = static::API_PORT;
+        // @codingStandardsIgnoreEnd
     }
 
     // Videos
@@ -98,13 +100,17 @@ class PandaStream extends \Panda implements DriverInterface
         );
     }
 
-    public function addVideoFromFile($file, $payload = '', $profiles = 'none')
+    public function addVideoFromFile($file, $payload = '', $profiles = 'none', $pathFormat = '')
     {
         $requestParams = array(
-            'payload'  => $payload,
-            'profiles' => $profiles,
-            'file'     => $file,
+            'payload'     => $payload,
+            'profiles'    => $profiles,
+            'file'        => $file
         );
+
+        if ($pathFormat != '') {
+            $requestParams['path_format'] = $pathFormat;
+        }
 
         // TODO: RECHECK ERROR HANDLING
         return $this->decodeAndReturn(
@@ -163,6 +169,7 @@ class PandaStream extends \Panda implements DriverInterface
             'video_id'     => $videoId,
             'profile_id'   => $formatId,
             'profile_name' => $formatName,
+
         );
 
         return $this->basicPostCall($url, $params);
@@ -293,6 +300,7 @@ class PandaStream extends \Panda implements DriverInterface
 
     protected function decodeAndReturn($text)
     {
+        $this->lastResponse = $text;
         $decoded = json_decode($text);
         if (null === $decoded) {
             throw new InvalidArgumentException('Incorrect arguments for request');
@@ -314,4 +322,8 @@ class PandaStream extends \Panda implements DriverInterface
         }
     }
 
+    public function getLastRawResponse()
+    {
+        return $this->lastResponse;
+    }
 }
