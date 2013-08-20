@@ -3,7 +3,6 @@
 namespace Kodify\TranscoderBundle\Tests\Service;
 
 use Kodify\TranscoderBundle\Service\Driver\PandaStream;
-use Kodify\TestsBundle\Tests\BaseClass;
 
 /**
  * @group transcoder
